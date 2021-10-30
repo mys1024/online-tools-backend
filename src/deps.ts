@@ -20,5 +20,3 @@ export {
 } from "https://deno.land/std@0.113.0/datetime/mod.ts";
 
 export { crypto } from "https://deno.land/std@0.113.0/crypto/mod.ts";
-
-export { Command } from "https://deno.land/x/cmd@v1.2.0/mod.ts";
