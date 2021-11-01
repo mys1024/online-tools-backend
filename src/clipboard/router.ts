@@ -6,7 +6,7 @@ const router = new Router();
 
 router.get("/text", (ctx) => {
   // parse accessCode
-  const accessCode = ctx.request.url.searchParams.get('accessCode')
+  const accessCode = ctx.request.url.searchParams.get("accessCode");
   // check accessCode
   if (typeof accessCode !== "string") {
     ctx.response.status = 400;
@@ -24,19 +24,20 @@ router.get("/text", (ctx) => {
 
 router.post("/text", async (ctx) => {
   // parse body
-  let body: unknown
+  let body: unknown;
   try {
-    body = await ctx.request.body({ type: 'json'} ).value as unknown
+    body = await ctx.request.body({ type: "json" }).value as unknown;
   } catch (err: unknown) {
-    if (!(err instanceof TypeError))
-      throw err
+    if (!(err instanceof TypeError)) {
+      throw err;
+    }
     ctx.response.status = 400;
-    return
+    return;
   }
   // check body
-  if (typeof body !== 'object' || !body) {
+  if (typeof body !== "object" || !body) {
     ctx.response.status = 400;
-    return
+    return;
   }
   const { text } = body as { text: unknown };
   // check text
@@ -62,7 +63,7 @@ router.post("/text", async (ctx) => {
 
 router.delete("/text", (ctx) => {
   // parse accessCode
-  const accessCode = ctx.request.url.searchParams.get('accessCode')
+  const accessCode = ctx.request.url.searchParams.get("accessCode");
   // check accessCode
   if (typeof accessCode !== "string") {
     ctx.response.status = 400;
