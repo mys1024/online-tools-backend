@@ -3,7 +3,9 @@
   "deno.lint": true,
   "deno.unstable": false,
   "editor.defaultFormatter": "denoland.vscode-deno",
-  "deno.suggest.imports.hosts": {
-    "https://deno.land": true
-  }
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "Bson",
+    "upserted"
+  ]
 }

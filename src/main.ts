@@ -1,7 +1,7 @@
 import app from "./app.ts";
-import output from "./utils/output.ts";
+import output from "./util/output.ts";
 
-const port = Deno.env.get("HTTP_PORT") ?? "8080";
+const port = 80;
 
-app.listen(`:${port}`);
+app.listen({ port });
 output.info(`Listening on port ${port}...`);
