@@ -1,6 +1,9 @@
 import { base64url, oak } from "../deps.ts";
-import clipboardDao from "../db/dao/clipboard.ts";
-import { ClipboardItem } from "../types.ts";
+import {
+  deleteClipboardData,
+  getClipboardData,
+  setClipboardData,
+} from "../dao/clipboard.ts";
 import { randomBytes } from "../util/plain.ts";
 
 const router = new oak.Router();
@@ -12,14 +15,14 @@ router.get("/item", async (ctx) => {
     ctx.response.status = 400;
     return;
   }
-  // find clipboard item
-  const item = await clipboardDao.findOne(key);
-  if (!item) {
+  // get a clipboard item
+  const item = await getClipboardData(key);
+  if (item === null) {
     ctx.response.status = 404;
     return;
   }
   // response
-  ctx.response.body = { text: item.text };
+  ctx.response.body = { text: item };
 });
 
 router.post("/item", async (ctx) => {
@@ -34,15 +37,11 @@ router.post("/item", async (ctx) => {
     ctx.response.status = 400;
     return;
   }
-  // create and insert clipboard item
-  const item: ClipboardItem = {
-    text,
-    key: base64url.encode(randomBytes(3)),
-    createdAt: new Date(),
-  };
-  await clipboardDao.insertOne(item);
+  // set a clipboard item
+  const key = base64url.encode(randomBytes(3));
+  setClipboardData(key, text);
   // response
-  ctx.response.body = { key: item.key };
+  ctx.response.body = { key };
 });
 
 router.delete("/item", async (ctx) => {
@@ -52,12 +51,8 @@ router.delete("/item", async (ctx) => {
     ctx.response.status = 400;
     return;
   }
-  // delete a photo set
-  const deletedCount = await clipboardDao.deleteOne(key);
-  if (deletedCount === 0) {
-    ctx.response.status = 404;
-    return;
-  }
+  // delete a clipboard item
+  const deletedCount = await deleteClipboardData(key);
   // response
   ctx.response.status = 200;
 });

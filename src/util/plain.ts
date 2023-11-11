@@ -1,6 +1,7 @@
 import { concat, crypto } from "../deps.ts";
 
 const encoder = new TextEncoder();
+
 export async function blake3(...data: (string | Uint8Array)[]) {
   const buffers = data.map((d) =>
     typeof d === "string" ? encoder.encode(d) : d
